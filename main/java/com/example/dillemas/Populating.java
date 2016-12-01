@@ -7,6 +7,7 @@ package com.example.dillemas;
 public class Populating {
     private final String[] categories= new String[5];
 
+    //Our categories.
     private void populateCategories() {
 
         categories[0] = "ΑΣΤΕΙΑ";

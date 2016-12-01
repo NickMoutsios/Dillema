@@ -13,11 +13,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
+    //Moving to next activity.
     public void goToCategories(View view) {
         Intent intent = new Intent(this,DisplayOptionsActivity.class);
         startActivity(intent);
     }
 
+    //Exit application.
     public void exitGame(View view) {
         finish();
         System.exit(0);

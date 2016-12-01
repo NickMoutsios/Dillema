@@ -20,12 +20,11 @@ import java.util.HashMap;
 public class DisplayGameActivity extends AppCompatActivity {
 
     private Intent intent;
-    private TextView dillemaTextView,scoreTextView, firstAnswerTextView, secondAnswerTextView;
+    private TextView dillemaTextView, scoreTextView, firstAnswerTextView, secondAnswerTextView;
     private Button nextButton;
     private String passedCategory;
     private Populating popObj = new Populating();
-    private String[] categoriesList,dillemaArray,answersArray;
-    private Integer[] checkArray;
+    private String[] categoriesArray, dillemaArray, answersArray;
     private InputStream streamForDillema, streamForAnswers;
     private BufferedReader readerForDillema, readerForAnswers;
     private ArrayList<String> dillemaList = new ArrayList<>();
@@ -33,6 +32,7 @@ public class DisplayGameActivity extends AppCompatActivity {
     private int currentDillemaQuestion;
     private int score = 0;
     private HashMap<String, String> hashMapForAnswer1, hashMapForAnswer2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +40,12 @@ public class DisplayGameActivity extends AppCompatActivity {
 
         intent = getIntent();
         passedCategory = intent.getStringExtra(DisplayOptionsActivity.PASS_THE_CATEGORY);
-        categoriesList = popObj.getCategories();
+        categoriesArray = popObj.getCategories();
         populateIds();
         pickRightCategory();
     }
 
+    //Initialize Ids.
     private void populateIds() {
         dillemaTextView = (TextView) findViewById(R.id.dillemaTextView);
         scoreTextView = (TextView) findViewById(R.id.numberOfDillTextView);
@@ -55,117 +56,54 @@ public class DisplayGameActivity extends AppCompatActivity {
 
     private void pickRightCategory() {
         //Picking the right category and opening the right .txt file
-        //to fill the dillemaArray with the chosen dillemas
+        //to fill the dillemaList with the chosen dillemas and the answersList with the chosen answers.
 
-        if (passedCategory.equals(categoriesList[0])) {
+
+        if (passedCategory.equals(categoriesArray[0])) {
             try {
                 streamForDillema = getAssets().open("Asteia.txt");
                 readerForDillema = new BufferedReader(new InputStreamReader(streamForDillema));
                 streamForAnswers = getAssets().open("AsteiaAnswers.txt");
                 readerForAnswers = new BufferedReader(new InputStreamReader(streamForAnswers));
-                String dillema, answers;
-                try {
-                    while ((dillema = readerForDillema.readLine()) != null) {
-                        dillemaList.add(dillema);
-                    }
-                    while ((answers = readerForAnswers.readLine()) != null) {
-                        answersList.add(answers);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        streamForDillema.close();
-                        streamForAnswers.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                populateDillemaAndAnswersList();
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }
             initializeDillemaAndAnswers();
 
-        } else if (passedCategory.equals(categoriesList[1])) {
+        } else if (passedCategory.equals(categoriesArray[1])) {
             try {
                 streamForDillema = getAssets().open("Diafora.txt");
                 readerForDillema = new BufferedReader(new InputStreamReader(streamForDillema));
                 streamForAnswers = getAssets().open("DiaforaAnswers.txt");
                 readerForAnswers = new BufferedReader(new InputStreamReader(streamForAnswers));
-                String dillema, answers;
-                try {
-                    while ((dillema = readerForDillema.readLine()) != null) {
-                        dillemaList.add(dillema);
-                    }
-                    while ((answers = readerForAnswers.readLine()) != null) {
-                        answersList.add(answers);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        streamForDillema.close();
-                        streamForAnswers.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                populateDillemaAndAnswersList();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
             initializeDillemaAndAnswers();
-        } else if (passedCategory.equals(categoriesList[2])) {
+        } else if (passedCategory.equals(categoriesArray[2])) {
             try {
                 streamForDillema = getAssets().open("Perierga.txt");
                 readerForDillema = new BufferedReader(new InputStreamReader(streamForDillema));
                 streamForAnswers = getAssets().open("PeriergaAnswers.txt");
                 readerForAnswers = new BufferedReader(new InputStreamReader(streamForAnswers));
-                String dillema, answers;
-                try {
-                    while ((dillema = readerForDillema.readLine()) != null) {
-                        dillemaList.add(dillema);
-                    }
-                    while ((answers = readerForAnswers.readLine()) != null) {
-                        answersList.add(answers);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        streamForDillema.close();
-                        streamForAnswers.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                populateDillemaAndAnswersList();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
             initializeDillemaAndAnswers();
-        } else if (passedCategory.equals(categoriesList[3])) {
+        } else if (passedCategory.equals(categoriesArray[3])) {
             try {
                 streamForDillema = getAssets().open("Thanatou.txt");
                 readerForDillema = new BufferedReader(new InputStreamReader(streamForDillema));
                 streamForAnswers = getAssets().open("ThanatouAnswers.txt");
                 readerForAnswers = new BufferedReader(new InputStreamReader(streamForAnswers));
-                String dillema, answers;
-                try {
-                    while ((dillema = readerForDillema.readLine()) != null) {
-                        dillemaList.add(dillema);
-                    }
-                    while ((answers = readerForAnswers.readLine()) != null) {
-                        answersList.add(answers);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        streamForDillema.close();
-                        streamForAnswers.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                populateDillemaAndAnswersList();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -176,24 +114,8 @@ public class DisplayGameActivity extends AppCompatActivity {
                 readerForDillema = new BufferedReader(new InputStreamReader(streamForDillema));
                 streamForAnswers = getAssets().open("AvolaAnswers.txt");
                 readerForAnswers = new BufferedReader(new InputStreamReader(streamForAnswers));
-                String dillema, answers;
-                try {
-                    while ((dillema = readerForDillema.readLine()) != null) {
-                        dillemaList.add(dillema);
-                    }
-                    while ((answers = readerForAnswers.readLine()) != null) {
-                        answersList.add(answers);
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        streamForDillema.close();
-                        streamForAnswers.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
+                populateDillemaAndAnswersList();
+                
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -201,8 +123,11 @@ public class DisplayGameActivity extends AppCompatActivity {
         }
     }
 
+    //Generate the next dillema with the Next button.
     public void nextDillema(View view) {
-        if(score < dillemaArray.length){scoreUpdate();}
+        if (score < dillemaArray.length) {
+            scoreUpdate();
+        }
         currentDillemaAndAnswersUpdate();
     }
 
@@ -210,14 +135,16 @@ public class DisplayGameActivity extends AppCompatActivity {
         this.finish();
     }
 
+    //TextView so the user can always see how many dillemas he has answered.
     private void scoreUpdate() {
         score++;
-        scoreTextView.setText(score+"");
+        scoreTextView.setText(score + "");
     }
 
+    //Moving to next dillema and making the Next button unclickable if there are no more dillemas to display.
     private void currentDillemaAndAnswersUpdate() {
         currentDillemaQuestion++;
-        if(currentDillemaQuestion == dillemaArray.length) {
+        if (currentDillemaQuestion == dillemaArray.length) {
             nextButton.setClickable(false);
             nextButton.setEnabled(false);
             nextButton.getBackground().setColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY);
@@ -231,6 +158,8 @@ public class DisplayGameActivity extends AppCompatActivity {
         }
     }
 
+    //Displaying the first dillema and its answers. We want our dillemas to be "random" generated
+    //so we shuffle dillemaList and always get its answers using Hashmap.
     private void initializeDillemaAndAnswers() {
 
         currentDillemaQuestion = 0;
@@ -238,11 +167,11 @@ public class DisplayGameActivity extends AppCompatActivity {
         answersArray = answersList.toArray(new String[0]);
         hashMapForAnswer1 = new HashMap<>();
         hashMapForAnswer2 = new HashMap<>();
-        int j =0;
-        for(int i =0;i<dillemaArray.length;i++) {
-            hashMapForAnswer1.put(dillemaArray[i],answersArray[j]);
-            hashMapForAnswer2.put(dillemaArray[i],answersArray[j+1]);
-            j+=2;
+        int j = 0;
+        for (int i = 0; i < dillemaArray.length; i++) {
+            hashMapForAnswer1.put(dillemaArray[i], answersArray[j]);
+            hashMapForAnswer2.put(dillemaArray[i], answersArray[j + 1]);
+            j += 2;
         }
         Collections.shuffle(dillemaList);
         dillemaArray = dillemaList.toArray(new String[0]);
@@ -251,4 +180,27 @@ public class DisplayGameActivity extends AppCompatActivity {
         secondAnswerTextView.setText(hashMapForAnswer2.get(dillemaArray[currentDillemaQuestion]));
     }
 
+    //Filling the Lists with the chosen dillemas/answers.
+    private void populateDillemaAndAnswersList() {
+        String dillema, answers;
+        try {
+            while ((dillema = readerForDillema.readLine()) != null) {
+                dillemaList.add(dillema);
+            }
+            while ((answers = readerForAnswers.readLine()) != null) {
+                answersList.add(answers);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                streamForDillema.close();
+                streamForAnswers.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
+}
+
