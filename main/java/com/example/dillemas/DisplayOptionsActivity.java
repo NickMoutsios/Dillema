@@ -14,7 +14,7 @@ public class DisplayOptionsActivity extends AppCompatActivity {
     public static final String PASS_THE_CATEGORY = "";
 
     private Intent categoryIntent,gameIntent;
-    private Button helpButton,goBackButton,catButton1,catButton2,catButton3,catButton4,catButton5, buttonPressed;
+    private Button helpButton,goBackButton,catButton1,catButton2,catButton3,catButton4,catButton5;
     private TextView currentCategoryTextView;
     private String[] categoriesList;
     private Button[] categoryButtons;
@@ -35,6 +35,7 @@ public class DisplayOptionsActivity extends AppCompatActivity {
 
     }
 
+    //Filling the categoryButtons array with buttons.
     private Button[] populateCategoryButtons() {
         Button[] population = new Button[5];
         population[0] = catButton1;
@@ -46,6 +47,7 @@ public class DisplayOptionsActivity extends AppCompatActivity {
         return population;
     }
 
+    //Initializing Ids.
     private void populateIds() {
         helpButton = (Button) findViewById(R.id.helpButton);
         helpButton.setText(Html.fromHtml("<h1> ? </h1>"));
@@ -59,6 +61,7 @@ public class DisplayOptionsActivity extends AppCompatActivity {
         currentCategoryTextView = (TextView) findViewById(R.id.currentCategoryTextView);
     }
 
+    //Passing the category from the button that's pressed to TextView.
     public void chosenCategory(View view) {
         switch (view.getId()) {
             case R.id.catButton1:
@@ -79,6 +82,7 @@ public class DisplayOptionsActivity extends AppCompatActivity {
         }
     }
 
+    //Start of the DisplayGameActivity while passing the chosenCategory.
     public void beginGame(View view) {
         gameIntent = new Intent(this,DisplayGameActivity.class);
         String passTheCategory = currentCategoryTextView.getText().toString();
@@ -86,12 +90,15 @@ public class DisplayOptionsActivity extends AppCompatActivity {
         startActivity(gameIntent);
     }
 
+    //Go back to main menu.
     public void goBackToMain(View view) {
         this.finish();
     }
 
+    //Displaying info about the game.
     public void getHelp(View view) {
-        Toast.makeText(getBaseContext(),"Τα διλλήματα είναι ενα παιχνίδι το οποιο",Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(),"Τα διλλήματα είναι ένα παιχνίδι στο οποίο ο κόσμος είναι σκληρός." +
+                "Αναγκαστικά επιλέγεις 1 από τις 2 απαντήσεις ενώ σκέφτεσαι ποιά απο τις 2 σε συμφέρει ή σου αρέσει πιο πολύ ",Toast.LENGTH_LONG).show();
     }
 }
 
